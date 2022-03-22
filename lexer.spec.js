@@ -65,4 +65,15 @@ describe("lexer", () => {
         .map((str) => str.trim())
     ).toEqual(result.split("\n").map((str) => str.trim()));
   });
+
+  it('should work for a := 1', () => {
+    const result = `('a', IDENT, 1)
+    (':=', ASSIGN_OP, 12)
+    ('1', INT_LIT, 2)`;
+
+    expect(tokenizeLine("a := 1")
+      .split("\n")
+      .map((str) => str.trim())
+    ).toEqual(result.split("\n").map((str) => str.trim()))
+  })
 });

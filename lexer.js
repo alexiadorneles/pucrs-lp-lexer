@@ -32,6 +32,12 @@ const tokenizeLine = (content) => {
       if (last === "=") {
         output(buildOutput(), "ASSIGN_OP", 12);
         read = [];
+      } else {
+        const current = read.pop()
+        const id = Number(buildOutput()) ? 2 : 1;
+        const token = Number(buildOutput()) ? "INT_LIT" : "IDENT";
+        read.length && output(buildOutput(), token, id);
+        read = [current];
       }
     }
 
@@ -40,6 +46,12 @@ const tokenizeLine = (content) => {
       if (last === "=") {
         output(buildOutput(), "EQ_OP", 11);
         read = [];
+      } else {
+        const current = read.pop()
+        const id = Number(buildOutput()) ? 2 : 1;
+        const token = Number(buildOutput()) ? "INT_LIT" : "IDENT";
+        read.length && output(buildOutput(), token, id);
+        read = [current];
       }
 
       continue;
