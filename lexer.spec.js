@@ -76,4 +76,17 @@ describe("lexer", () => {
       .map((str) => str.trim())
     ).toEqual(result.split("\n").map((str) => str.trim()))
   })
+
+  it('should work for 345 == 387', () => {
+    const result = `('345', INT_LIT, 2)
+    ('==', EQ_OP, 11)
+    ('387', INT_LIT, 2)`;
+
+    expect(tokenizeLine("345 == 387")
+      .split("\n")
+      .map((str) => str.trim())
+    ).toEqual(result.split("\n").map((str) => str.trim()))
+  })
+
+   
 });

@@ -57,6 +57,12 @@ const tokenizeLine = (content) => {
       continue;
     }
 
+    if (i === chars.length - 1) {
+      const id = Number(buildOutput()) ? 2 : 1;
+      const token = Number(buildOutput()) ? "INT_LIT" : "IDENT";
+      read.length && output(buildOutput(), token, id);
+    }
+
     if (Number(char)) {
       continue;
     }
@@ -73,9 +79,7 @@ const tokenizeLine = (content) => {
       read = [];
     }
 
-    if (i === chars.length - 1) {
-      output(buildOutput(), "IDENT", 1);
-    }
+
   }
 
   const result = outputs.reverse().join("\n");
@@ -88,6 +92,5 @@ const output = (lexema, token, id) => {
   outputs.push(`('${lexema}', ${token}, ${id})`);
 };
 
-console.log(tokenizeLine(readFile()));
 
 module.exports = { tokenizeLine };
