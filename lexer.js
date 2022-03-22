@@ -1,7 +1,6 @@
 // Autores:
 // Aléxia Dorneles
 // Leonardo Berlatto
-const fs = require("fs");
 const tokens = require("./tokens.json");
 
 let read = [];
@@ -14,9 +13,11 @@ const operators = Object.values(tokens)
   .map((token) => token.operator)
   .filter(Boolean);
 
-const readFile = () => {
-  return fs.readFileSync("./test.txt").toString();
-};
+const classifyLeftChars = () => {
+  const id = Number(buildOutput()) ? 2 : 1;
+  const token = Number(buildOutput()) ? "INT_LIT" : "IDENT";
+  read.length && output(buildOutput(), token, id);
+}
 
 const buildOutput = () => read.reverse().join("");
 
@@ -34,9 +35,7 @@ const tokenizeLine = (content) => {
         read = [];
       } else {
         const current = read.pop()
-        const id = Number(buildOutput()) ? 2 : 1;
-        const token = Number(buildOutput()) ? "INT_LIT" : "IDENT";
-        read.length && output(buildOutput(), token, id);
+        classifyLeftChars();
         read = [current];
       }
     }
@@ -48,9 +47,7 @@ const tokenizeLine = (content) => {
         read = [];
       } else {
         const current = read.pop()
-        const id = Number(buildOutput()) ? 2 : 1;
-        const token = Number(buildOutput()) ? "INT_LIT" : "IDENT";
-        read.length && output(buildOutput(), token, id);
+        classifyLeftChars();
         read = [current];
       }
 
@@ -58,9 +55,7 @@ const tokenizeLine = (content) => {
     }
 
     if (i === chars.length - 1) {
-      const id = Number(buildOutput()) ? 2 : 1;
-      const token = Number(buildOutput()) ? "INT_LIT" : "IDENT";
-      read.length && output(buildOutput(), token, id);
+      classifyLeftChars();
     }
 
     if (Number(char)) {
@@ -69,9 +64,7 @@ const tokenizeLine = (content) => {
 
     if (operators.includes(char)) {
       const lastRead = read.pop();
-      const id = Number(buildOutput()) ? 2 : 1;
-      const token = Number(buildOutput()) ? "INT_LIT" : "IDENT";
-      read.length && output(buildOutput(), token, id);
+      classifyLeftChars();
       read = [lastRead];
 
       const operatorKey = tokenByOperator(char);
